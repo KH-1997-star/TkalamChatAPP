@@ -1,19 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tchating/consts/const.dart';
-import 'package:tchating/services/auth_service.dart';
 
 class VerificationCode extends StatefulWidget {
+  final String phonrNumber;
+  String verificationCode = '';
+  VerificationCode({this.phonrNumber});
   @override
   _VerificationCodeState createState() => _VerificationCodeState();
 }
 
 class _VerificationCodeState extends State<VerificationCode> {
-  Map data = {};
-  AuthService _authService = AuthService();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController _pinCodeController = TextEditingController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    createAccount(widget.phonrNumber);
+  }
+
   void dispose() {
     _pinCodeController.dispose();
     super.dispose();
@@ -21,13 +29,11 @@ class _VerificationCodeState extends State<VerificationCode> {
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Vérifier le ${data['phoneNumber']}',
+          'Vérifier le ${widget.phonrNumber}',
           style: TextStyle(
             color: Colors.blue[700],
           ),
@@ -42,7 +48,7 @@ class _VerificationCodeState extends State<VerificationCode> {
           Column(
             children: [
               Text(
-                detect + data['phoneNumber'],
+                detect + widget.phonrNumber,
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -58,11 +64,10 @@ class _VerificationCodeState extends State<VerificationCode> {
                 length: 6,
                 obscureText: true,
                 backgroundColor: Colors.transparent,
-                onChanged: (val) {
-                  print(val);
-                },
-                onCompleted: (code) {
-                  _authService.signInPhone(data['verifId'], code);
+                onChanged: (val) {},
+                onCompleted: (code) async {
+                  await signInPhone(widget.verificationCode, code);
+                  Navigator.pushNamed(context, '/menu');
                 },
               )
             ],
@@ -70,5 +75,40 @@ class _VerificationCodeState extends State<VerificationCode> {
         ],
       ),
     );
+  }
+
+  Future createAccount(String number) async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: number,
+      verificationCompleted: (PhoneAuthCredential phoneCrad) async {
+        await _auth.signInWithCredential(phoneCrad).then((value) {
+          print(value);
+        });
+      },
+      verificationFailed: (FirebaseAuthException authException) {
+        print(authException.message);
+      },
+      codeSent: (String verificationId, int resendToken) {
+        setState(() {
+          widget.verificationCode = verificationId;
+        });
+      },
+      timeout: Duration(seconds: 60),
+      codeAutoRetrievalTimeout: (String verificationId) {
+        setState(() {
+          widget.verificationCode = verificationId;
+        });
+      },
+    );
+  }
+
+  Future signInPhone(verifId, smsCode) async {
+    try {
+      await _auth.signInWithCredential(
+        PhoneAuthProvider.credential(verificationId: verifId, smsCode: smsCode),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

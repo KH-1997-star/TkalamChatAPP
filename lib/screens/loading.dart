@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tchating/services/locate_user.dart';
@@ -10,10 +8,12 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
+  DateTime dateTime = DateTime.now();
   @override
   UserLoc userLoc = UserLoc();
   void getLoc() async {
     await userLoc.getLoc();
+
     Navigator.pushReplacementNamed(context, '/welcome_page', arguments: {
       'country': userLoc.country,
       'countrycode': userLoc.countryCode,

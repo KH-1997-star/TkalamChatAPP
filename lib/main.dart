@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tchating/screens/create_account.dart';
 import 'package:tchating/screens/loading.dart';
+import 'package:tchating/screens/menu.dart';
 import 'package:tchating/screens/verification.dart';
 import 'package:tchating/screens/welcome_page.dart';
 import 'package:sizer/sizer.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             appBarTheme: AppBarTheme(
-                backgroundColor: Colors.grey[50],
+                backgroundColor: Colors.grey[100],
                 iconTheme: IconThemeData(
                   color: Colors.blue[700],
                 )),
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
             '/welcome_page': (context) => WelcomePage(),
             '/create_account': (context) => CreatAccount(),
             '/verification': (context) => VerificationCode(),
+            '/menu': (context) => Menu(),
           },
         );
       },

@@ -4,8 +4,8 @@ import 'package:location/location.dart';
 
 class UserLoc {
   String city;
-  String country;
-  String countryCode;
+  String country = 'Tunisie';
+  String countryCode = 'TN';
   LocationData _locationData;
   PermissionStatus _permissionStatus;
   bool serviceEnabled;
@@ -37,6 +37,5 @@ class UserLoc {
     city = adress.first.featureName;
     country = adress.first.countryName;
     countryCode = adress.first.countryCode;
-     
   }
 }

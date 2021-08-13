@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:tchating/consts/const.dart';
-import 'package:tchating/services/auth_service.dart';
+import 'package:tchating/screens/verification.dart';
 
 class CreatAccount extends StatelessWidget {
   @override
   Map locateData = {};
   String phoneNumber = '', code = '', id = '';
-  AuthService authService = AuthService();
   Widget build(BuildContext context) {
     locateData = ModalRoute.of(context).settings.arguments;
     print(locateData['country']);
@@ -77,11 +76,11 @@ class CreatAccount extends StatelessWidget {
                   height: 45,
                   child: TextButton(
                     onPressed: () async {
-                      await authService.createAccount(phoneNumber, code, id);
-                      Navigator.pushNamed(context, '/verification', arguments: {
-                        'phoneNumber': code + phoneNumber,
-                        'verifId': id,
-                      });
+                      //await authService.createAccount(phoneNumber, code, id);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => VerificationCode(
+                                phonrNumber: code + phoneNumber,
+                              )));
                     },
                     child: Text(
                       'SUIVANT',
