@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689367246091",
+    "project_id": "tkalamapp",
+    "storage_bucket": "tkalamapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689367246091:android:3fba86eaeef405bebb2e0e",
+        "android_client_info": {
+          "package_name": "com.khkStartup.tkalam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689367246091-kc8c8irf4afknme2u7265qsb10v6keju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWAWfblgeolAWZqbDRstT6uRKYeoEq58c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689367246091-kc8c8irf4afknme2u7265qsb10v6keju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
